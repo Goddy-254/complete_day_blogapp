@@ -57,6 +57,10 @@ app.use((error, req, res, next) => {
 const MYPORT = process.env.PORT || 3003;
 
 const startServer = async()=>{
+    if (!process.env.JWT_SECRET) {
+        throw new Error("JWT_SECRET is not configured");
+    }
+
     await connectDB();
 
     app.listen(MYPORT, ()=>{ 
@@ -64,5 +68,8 @@ const startServer = async()=>{
     });
 }
 
-startServer();
+startServer().catch((error) => {
+    console.error("Server startup failed:", error.message);
+    process.exit(1);
+});
 
