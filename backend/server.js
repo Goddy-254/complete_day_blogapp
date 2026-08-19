@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://my-blog-app-nu-three.vercel.app"
+        "https://complete-day-blogapp.vercel.app/"
     ],
     credentials: true
 }));
