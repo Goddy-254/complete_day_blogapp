@@ -24,7 +24,10 @@ const RecentBlogs = () => {
             catch(error)
             {
                 setLoading(false);
-                toast.error(error.response.data.message);
+                toast.error(
+                    error.response?.data?.message ||
+                    "Unable to load recent blogs."
+                );
             }
 
         }
