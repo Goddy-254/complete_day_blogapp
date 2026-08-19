@@ -3,7 +3,7 @@ const config = {
         apiUrl: "http://localhost:3003"
     },
     production: {
-        apiUrl: "https://complete-day-blogapp.onrender.com"
+        apiUrl: import.meta.env.VITE_API_URL || ""
     }
 };
 
