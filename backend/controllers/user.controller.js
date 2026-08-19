@@ -115,11 +115,12 @@ export const loginUser = async(req, res)=>{
         );
 
         //set cookie
+        const isProduction = process.env.NODE_ENV === "production";
         res.cookie("myBlogCookie", token, {
             httpOnly: true,
             maxAge: 2 * 24 * 60 * 60 * 1000,
-            secure: true,
-            sameSite: "None",
+            secure: isProduction,
+            sameSite: isProduction ? "None" : "Lax",
             path: "/"
         });
 
@@ -166,11 +167,12 @@ export const checkCookie = (req, res)=>{
 export const logoutUser = (req, res)=>{
     try
     {
+        const isProduction = process.env.NODE_ENV === "production";
         res.clearCookie("myBlogCookie", {
             httpOnly: true,
             maxAge: 0,
-            secure: true,
-            sameSite: "None",
+            secure: isProduction,
+            sameSite: isProduction ? "None" : "Lax",
             path: "/"
         });
 

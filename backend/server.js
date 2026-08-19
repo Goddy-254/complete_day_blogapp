@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://complete-day-blogapp.vercel.app/"
+        "https://complete-day-blogapp.vercel.app"
     ],
     credentials: true
 }));
@@ -35,7 +35,7 @@ app.use("/api/admin", adminRoutes)
 app.use("/api/blog", blogRoutes);
 
  
-const MYPORT = process.env.PORT;
+const MYPORT = process.env.PORT || 3003;
 
 const startServer = async()=>{
     
