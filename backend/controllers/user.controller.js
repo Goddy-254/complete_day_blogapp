@@ -48,7 +48,22 @@ export const createUser = async(req, res)=>{
     }
     catch(error)
     {
-        console.log(error);
+        console.error("User registration failed:", error);
+
+        if (error?.code === 11000) {
+            return res.status(409).json({
+                success: false,
+                message: "Username or Email already Exists!"
+            });
+        }
+
+        if (error?.name === "ValidationError") {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide valid user details."
+            });
+        }
+
         return res.status(500).json({
             success: false,
             message: "Something Went wrong While registering!"
