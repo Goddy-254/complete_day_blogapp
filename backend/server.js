@@ -9,19 +9,11 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://complete-day-blogapp.vercel.app",
-    process.env.FRONTEND_URL
-].filter(Boolean);
-
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-        return callback(new Error("Origin is not allowed by CORS"));
-    },
+    origin: [
+        "http://localhost:5173",
+        "https://my-blog-app-nu-three.vercel.app"
+    ],
     credentials: true
 }));
 app.use(cookieParser());
@@ -42,25 +34,11 @@ app.use("/api/admin", adminRoutes)
 //3.blogs
 app.use("/api/blog", blogRoutes);
 
-app.use((error, req, res, next) => {
-    console.error("Unhandled server error:", error);
-    if (res.headersSent) {
-        return next(error);
-    }
-    return res.status(500).json({
-        success: false,
-        message: "Internal server error"
-    });
-});
-
  
-const MYPORT = process.env.PORT || 3003;
+const MYPORT = process.env.PORT;
 
 const startServer = async()=>{
-    if (!process.env.JWT_SECRET) {
-        throw new Error("JWT_SECRET is not configured");
-    }
-
+    
     await connectDB();
 
     app.listen(MYPORT, ()=>{ 
@@ -68,11 +46,5 @@ const startServer = async()=>{
     });
 }
 
-startServer().catch((error) => {
-    console.error("Server startup failed:", error);
-    process.exit(1);
-}).catch((error) => {
-    console.error("Server startup failed:", error.message);
-    process.exit(1);
-});
+startServer();
 

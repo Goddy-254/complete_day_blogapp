@@ -48,22 +48,7 @@ export const createUser = async(req, res)=>{
     }
     catch(error)
     {
-        console.error("User registration failed:", error);
-
-        if (error?.code === 11000) {
-            return res.status(409).json({
-                success: false,
-                message: "Username or Email already Exists!"
-            });
-        }
-
-        if (error?.name === "ValidationError") {
-            return res.status(400).json({
-                success: false,
-                message: "Please provide valid user details."
-            });
-        }
-
+        console.log(error);
         return res.status(500).json({
             success: false,
             message: "Something Went wrong While registering!"
@@ -130,12 +115,11 @@ export const loginUser = async(req, res)=>{
         );
 
         //set cookie
-        const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
         res.cookie("myBlogCookie", token, {
             httpOnly: true,
             maxAge: 2 * 24 * 60 * 60 * 1000,
-            secure: isProduction,
-            sameSite: isProduction ? "None" : "Lax",
+            secure: true,
+            sameSite: "None",
             path: "/"
         });
 
@@ -182,12 +166,11 @@ export const checkCookie = (req, res)=>{
 export const logoutUser = (req, res)=>{
     try
     {
-        const isProduction = process.env.NODE_ENV === "production";
         res.clearCookie("myBlogCookie", {
             httpOnly: true,
             maxAge: 0,
-            secure: isProduction,
-            sameSite: isProduction ? "None" : "Lax",
+            secure: true,
+            sameSite: "None",
             path: "/"
         });
 
