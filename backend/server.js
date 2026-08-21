@@ -10,10 +10,9 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 const app = express();
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://complete-day-blogapp.vercel.app/"
-    ],
+    origin: 
+        "https://complete-day-blogapp.vercel.app",
+    
     credentials: true
 }));
 app.use(cookieParser());
